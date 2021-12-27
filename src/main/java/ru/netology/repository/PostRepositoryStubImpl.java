@@ -29,7 +29,7 @@ public class PostRepositoryStubImpl implements PostRepository {
             post = new Post(newId, post.getContent());
             posts.put(post.getId(), post);
         }
-        if (posts.containsKey(post.getId())) {
+        if (posts.containsKey(post.getId()) && post.isDeleted()) {
             posts.put(post.getId(), post);
         } else {
             throw new NotFoundException();
@@ -38,6 +38,7 @@ public class PostRepositoryStubImpl implements PostRepository {
     }
 
     public void removeById(long id) {
-        posts.remove(id);
+        posts.get(id).setDeleted(true);
+        //posts.remove(id);
     }
 }
