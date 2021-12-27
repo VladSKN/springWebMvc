@@ -16,20 +16,24 @@ public class PostRepositoryStubImpl implements PostRepository {
 
     public List<Post> all() {
         if (posts.isEmpty()) return Collections.emptyList();
-        return new ArrayList<>(posts.values());
+        List<Post> collection = new ArrayList<>(posts.values());
+        return collection.stream().filter(post -> !post.isDeleted()).toList();
     }
 
     public Optional<Post> getById(long id) {
+        if (posts.get(id).isDeleted()) {
+            throw new NotFoundException();
+        }
         return Optional.ofNullable(posts.get(id));
     }
 
     public Post save(Post post) {
         if (post.getId() == 0) {
             long newId = id.incrementAndGet();
-            post = new Post(newId, post.getContent());
+            post = new Post(newId, post.getContent(), false);
             posts.put(post.getId(), post);
         }
-        if (posts.containsKey(post.getId()) && post.isDeleted()) {
+        if (posts.containsKey(post.getId()) && !post.isDeleted()) {
             posts.put(post.getId(), post);
         } else {
             throw new NotFoundException();
@@ -39,6 +43,5 @@ public class PostRepositoryStubImpl implements PostRepository {
 
     public void removeById(long id) {
         posts.get(id).setDeleted(true);
-        //posts.remove(id);
     }
 }

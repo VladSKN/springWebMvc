@@ -8,9 +8,10 @@ public class Post {
     public Post() {
     }
 
-    public Post(long id, String content) {
+    public Post(long id, String content, boolean isDeleted) {
         this.id = id;
         this.content = content;
+        this.isDeleted = isDeleted;
     }
 
     public long getId() {
