@@ -3,6 +3,7 @@ package ru.netology.model;
 public class Post {
     private long id;
     private String content;
+    private boolean isDeleted;
 
     public Post() {
     }
