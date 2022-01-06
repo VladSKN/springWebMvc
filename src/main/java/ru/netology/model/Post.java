@@ -3,15 +3,14 @@ package ru.netology.model;
 public class Post {
     private long id;
     private String content;
-    private boolean isDeleted = false;
+    private transient boolean isDeleted = false;
 
     public Post() {
     }
 
-    public Post(long id, String content, boolean isDeleted) {
+    public Post(long id, String content) {
         this.id = id;
         this.content = content;
-        this.isDeleted = isDeleted;
     }
 
     public long getId() {
